@@ -7,7 +7,7 @@ import Navi from './layouts/Navi';
 function App() {
   return (
     <div className="App">
-      <Navi />
+      <Navi/>
       <Container className="main">
         <Dashboard />
       </Container>

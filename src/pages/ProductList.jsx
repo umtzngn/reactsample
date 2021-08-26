@@ -1,36 +1,38 @@
-import React from "react";
-import { Icon, Label, Menu, Table } from "semantic-ui-react";
+import React, { useState,useEffect } from "react";
+import { Icon, Menu, Table } from "semantic-ui-react";
+import ProductService from "../services/productService"
 
 export default function ProductList() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(()=>{
+    let productService = new ProductService()
+    productService.getProducts().then(result=>setProducts(result.data.data))
+  })
+
   return (
     <div>
       <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Header</Table.HeaderCell>
-            <Table.HeaderCell>Header</Table.HeaderCell>
-            <Table.HeaderCell>Header</Table.HeaderCell>
+            <Table.HeaderCell>Product Name</Table.HeaderCell>
+            <Table.HeaderCell>Unit Price</Table.HeaderCell>
+            <Table.HeaderCell>Stock</Table.HeaderCell>
+            <Table.HeaderCell>Definition</Table.HeaderCell>
+            <Table.HeaderCell>Category</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          <Table.Row>
-            <Table.Cell>
-              <Label ribbon>First</Label>
-            </Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
+          {products.map((product) => (
+            <Table.Row key={product.id}>
+              <Table.Cell>{product.productName}</Table.Cell>
+              <Table.Cell>{product.unitPrice}</Table.Cell>
+              <Table.Cell>{product.unitsInStock}</Table.Cell>
+              <Table.Cell>{product.quantityPerUnit}</Table.Cell>
+              <Table.Cell>{product.category.categoryName}</Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
 
         <Table.Footer>
