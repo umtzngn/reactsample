@@ -1,15 +1,28 @@
 import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Icon, Menu, Table } from "semantic-ui-react";
+import { Button, Icon, Menu, Table, TableHeaderCell } from "semantic-ui-react";
 import ProductService from "../services/productService"
+import { useDispatch } from "react-redux";
+import { addToCard } from "../store/actions/cartActions";
+import { toast } from "react-toastify";
 
 export default function ProductList() {
+
+
+ const dispatch = useDispatch()
+
   const [products, setProducts] = useState([]);
 
   useEffect(()=>{
     let productService = new ProductService()
     productService.getProducts().then(result=>setProducts(result.data.data))
   },[])
+
+
+  const handleAddToCard=(product)=>{
+    dispatch(addToCard(product))
+    toast.success(`${product.productName} sepete eklendi!`)
+  }
 
   return (
     <div>
@@ -21,6 +34,7 @@ export default function ProductList() {
             <Table.HeaderCell>Stock</Table.HeaderCell>
             <Table.HeaderCell>Definition</Table.HeaderCell>
             <Table.HeaderCell>Category</Table.HeaderCell>
+            <TableHeaderCell></TableHeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -32,6 +46,7 @@ export default function ProductList() {
               <Table.Cell>{product.unitsInStock}</Table.Cell>
               <Table.Cell>{product.quantityPerUnit}</Table.Cell>
               <Table.Cell>{product.category.categoryName}</Table.Cell>
+              <Table.Cell><Button onClick={()=>handleAddToCard(product)}>Add</Button></Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
