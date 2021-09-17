@@ -1,7 +1,7 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import React from "react";
 import * as yup from "yup";
-import { Button, FormField, Label } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import CPTextInput from "../utilities/customFormControls/CPTextInput";
 
 export default function ProductAdd() {
